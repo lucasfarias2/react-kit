@@ -1,1 +1,1 @@
-# react-kit
+# react-vite-ssr
