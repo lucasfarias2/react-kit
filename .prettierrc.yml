@@ -1,0 +1,9 @@
+trailingComma: 'es5'
+printWidth: 120
+arrowParens: avoid
+singleQuote: true
+importOrder: ['^@/(.*)$', '^[./]']
+importOrderSeparation: false
+importOrderSortSpecifiers: true
+importOrderGroupNamespaceSpecifiers: true
+importOrderCaseInsensitive: true
