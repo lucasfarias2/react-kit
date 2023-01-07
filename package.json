@@ -10,7 +10,7 @@
     "url": "git+https://github.com/lucasfarias2/react-vite-ssr.git"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "nodemon server.js",
     "build:client": "vite build --outDir ../dist/client",
     "build:server": "vite build --outDir ../dist/server --ssr ServerApp.tsx",
     "build": "npm run build:client && npm run build:server",
@@ -22,8 +22,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
-    "typecheck": "tsc --noEmit",
-    "viteserver": "nodemon viteserver.js"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
@@ -55,6 +54,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "happy-dom": "^8.1.3",
+    "merge-options": "^3.0.4",
     "nodemon": "^2.0.20",
     "postcss": "^8.4.21",
     "prettier": "^2.8.1",

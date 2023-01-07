@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-const App = () => {
+const App = ({ name }: { name: string }) => {
   const [count, add] = useState(0);
 
   return (
     <div className="p-8">
+      {name}
       <p className="p-4 bg-white border rounded-lg shadow-lg mb-4">{count}</p>
 
       <button
@@ -13,7 +14,7 @@ const App = () => {
           add(count + 1);
         }}
       >
-        Add count hehe plz
+        Add count
       </button>
     </div>
   );

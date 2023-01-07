@@ -1,0 +1,7 @@
+{
+  "quiet": true,
+  "execMap": {
+    "ts": "ts-node-esm --transpileOnly"
+  },
+  "ignore": ["**/*.jsx", "**/*.tsx", "**/*.mjs"]
+}

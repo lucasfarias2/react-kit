@@ -1,44 +1,95 @@
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import renderApp from './dist/server/ServerApp.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const PORT = process.env.PORT || 3001;
+const isTest = process.env.VITEST;
 
-const html = fs.readFileSync(path.resolve(__dirname, './dist/client/index.html')).toString();
+const port = 3000;
+const hmrPort = 3001;
 
-const parts = html.split('Not rendered');
+process.env.MY_CUSTOM_SECRET = 'API_KEY_qwertyuiop';
 
-const app = express();
+export async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV === 'production') {
+  const resolve = p => path.resolve(__dirname, p);
 
-app.use('/assets', express.static(path.resolve(__dirname, './dist/client/assets')));
+  const indexProd = isProd ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8') : '';
 
-app.use((req, res) => {
-  res.write(parts[0]);
+  const app = express();
 
-  const stream = renderApp(req.url, {
-    onShellReady() {
-      // if its crawler dont do nothing here
-      stream.pipe(res);
-    },
-    onShelError() {
-      // error handling
-    },
-    onAllReady() {
-      // if its the crawler do stream.pipe(res) here
-      // last thing to write
-      res.write(parts[1]);
-      res.end();
-    },
-    onError(err) {
-      console.error(err);
-    },
+  let vite;
+  if (!isProd) {
+    vite = await (
+      await import('vite')
+    ).createServer({
+      root,
+      logLevel: isTest ? 'error' : 'info',
+      server: {
+        middlewareMode: true,
+        watch: {
+          // During tests we edit the files too fast and sometimes chokidar
+          // misses change events, so enforce polling for consistency
+          usePolling: true,
+          interval: 100,
+        },
+        hmr: {
+          port: hmrPort,
+        },
+      },
+      appType: 'custom',
+    });
+    // use vite's connect instance as middleware
+    app.use(vite.middlewares);
+  } else {
+    app.use((await import('compression')).default());
+    app.use(
+      (await import('serve-static')).default(resolve('dist/client'), {
+        index: false,
+      })
+    );
+  }
+
+  app.use('*', async (req, res) => {
+    try {
+      const url = req.originalUrl;
+
+      let template, render;
+      if (!isProd) {
+        template = fs.readFileSync(resolve('./src/index.html'), 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        render = (await vite.ssrLoadModule('/src/ServerApp.tsx')).render;
+      } else {
+        template = indexProd;
+        // @ts-ignore
+        render = (await import('./dist/server/ServerApp.js')).render;
+      }
+
+      const context = {};
+      const appHtml = render(url, context, { name: 'Napkin' });
+
+      if (context.url) {
+        return res.redirect(301, context.url);
+      }
+
+      const html = template.replace(`<!--app-html-->`, appHtml);
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    } catch (e) {
+      !isProd && vite.ssrFixStacktrace(e);
+      console.log(e.stack);
+      res.status(500).end(e.stack);
+    }
   });
-});
 
-app.listen(PORT, () => {
-  console.log(`Listening on http://localhost:${PORT}`);
-});
+  return { app, vite };
+}
+
+if (!isTest) {
+  createServer().then(({ app }) =>
+    app.listen(port, () => {
+      console.log(`http://localhost:${port}`);
+    })
+  );
+}

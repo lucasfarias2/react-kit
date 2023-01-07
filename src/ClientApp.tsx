@@ -5,7 +5,7 @@ import App from './App';
 hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <BrowserRouter>
-    <App />
+    <App name="Lucas client" />
   </BrowserRouter>
 );
 
