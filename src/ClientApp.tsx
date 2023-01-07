@@ -3,10 +3,9 @@ import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const props: any = window.__PRELOADED_STATE__;
+declare const window: IWindow;
 
-console.log('propitas', props);
+const props = window.__PRELOADED_STATE__;
 
 hydrateRoot(
   document.getElementById('root') as HTMLElement,
