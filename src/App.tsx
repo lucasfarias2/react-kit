@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 const App = ({ name }: { name: string }) => {
   const [count, add] = useState(0);
+  console.log("name", name)
 
   return (
     <div className="p-8">
@@ -14,7 +15,7 @@ const App = ({ name }: { name: string }) => {
           add(count + 1);
         }}
       >
-        Add count
+        Add count jeje
       </button>
     </div>
   );

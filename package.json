@@ -10,8 +10,10 @@
     "url": "git+https://github.com/lucasfarias2/react-vite-ssr.git"
   },
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "nodemon new-server.js",
     "build:client": "vite build --outDir ../dist/client",
+    "watch": "vite build --outDir ../dist/client --watch",
+    "watch:server": "vite build --outDir ../dist/server --ssr ServerApp.tsx --watch",
     "build:server": "vite build --outDir ../dist/server --ssr ServerApp.tsx",
     "build": "npm run build:client && npm run build:server",
     "preview": "vite preview",

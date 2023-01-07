@@ -2,13 +2,12 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import generateTemplate from './template.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const port = 3000;
 const hmrPort = 3001;
-
-process.env.MY_CUSTOM_SECRET = 'API_KEY_qwertyuiop';
 
 export async function createServer(root = process.cwd()) {
   const resolve = p => path.resolve(__dirname, p);
@@ -39,13 +38,19 @@ export async function createServer(root = process.cwd()) {
     try {
       const url = req.originalUrl;
 
-      const htmlFromFile = fs.readFileSync(resolve('./index.html'), 'utf-8');
+      // const htmlFromFile = fs.readFileSync(resolve('./index.html'), 'utf-8');
 
-      const transformedHtml = await vite.transformIndexHtml(url, htmlFromFile);
+      const data = { name: 'Data from server side' };
+
+      const serializedData = JSON.stringify(data);
+
+      const preTemplate = generateTemplate(serializedData);
+
+      const transformedHtml = await vite.transformIndexHtml(url, preTemplate);
 
       const renderMethodFromServerApp = (await vite.ssrLoadModule('/src/ServerApp.tsx')).render;
 
-      const renderedToString = renderMethodFromServerApp(url, { initialState: 'asd' }, { name: 'Napkin' });
+      const renderedToString = renderMethodFromServerApp(url, data);
 
       const finalHtml = transformedHtml.replace(`<!--app-html-->`, renderedToString);
 

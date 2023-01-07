@@ -9,6 +9,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "vite.config.js"],
+  "include": ["**/*.ts", "**/*.tsx", "vite.config.js", "template.js"],
   "exclude": ["node_modules", "dist"]
 }
