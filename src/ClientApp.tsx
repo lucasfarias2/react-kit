@@ -8,3 +8,5 @@ hydrateRoot(
     <App />
   </BrowserRouter>
 );
+
+console.log('hydrated');

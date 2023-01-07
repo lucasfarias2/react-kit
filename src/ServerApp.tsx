@@ -1,14 +1,22 @@
-import { renderToPipeableStream, RenderToPipeableStreamOptions } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import App from './App';
 
-export default function render(url: string, opts: RenderToPipeableStreamOptions) {
-  const stream = renderToPipeableStream(
+// export default function render(url: string, opts: RenderToPipeableStreamOptions) {
+//   const stream = renderToPipeableStream(
+// <StaticRouter location={url}>
+//   <App />
+// </StaticRouter>,
+// opts
+//   );
+
+//   return stream;
+// }
+
+export function render(url: string) {
+  return renderToString(
     <StaticRouter location={url}>
       <App />
-    </StaticRouter>,
-    opts
+    </StaticRouter>
   );
-
-  return stream;
 }

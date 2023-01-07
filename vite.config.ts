@@ -3,7 +3,10 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  root: 'src',
+  // root: 'src',
+  build: {
+    minify: false,
+  },
   // test: {
   //   environment: 'happy-dom',
   //   setupFiles: ['./setupVitest.js'],
