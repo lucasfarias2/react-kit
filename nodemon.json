@@ -1,7 +1,11 @@
 {
   "quiet": true,
   "execMap": {
-    "ts": "ts-node-esm --transpileOnly"
+    "ts": "ts-node"
   },
-  "ignore": ["**/*.jsx", "**/*.tsx", "**/*.mjs"]
+  "ignore": ["**/*.jsx", "**/*.tsx", "**/*.mjs"],
+  "events": {
+    "restart": "echo \"Server restarted\"",
+    "start": "echo \"Server started\""
+  }
 }

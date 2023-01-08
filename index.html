@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>react-vite-ssr</title>
     <link rel="stylesheet" href="./src/style.css" />
+    <!-- Don't remove preloaded state comment, used for SSR props sharing -->
     <script>
       // preloaded-state
     </script>
   </head>
   <body>
     <div id="root"><!--app-html--></div>
-    <script type="module" src="./src/ClientApp.tsx"></script>
+    <script type="module" src="./src/client/ClientApp.tsx"></script>
   </body>
 </html>

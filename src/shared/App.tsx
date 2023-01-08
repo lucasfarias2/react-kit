@@ -14,7 +14,7 @@ const App = ({ name }: { name: string }) => {
           add(count + 1);
         }}
       >
-        Add count
+        Add counts
       </button>
     </div>
   );

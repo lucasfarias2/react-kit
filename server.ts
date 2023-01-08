@@ -2,6 +2,7 @@ import express from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import getServerOptions from './src/server/getServerOptions';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -9,31 +10,15 @@ const port = 3000;
 const hmrPort = 3001;
 
 export async function createServer(root = process.cwd()) {
-  const resolve = p => path.resolve(__dirname, p);
-
-  const serverOptions = {
-    root,
-    logLevel: 'info',
-    server: {
-      middlewareMode: true,
-      watch: {
-        usePolling: true,
-        interval: 100,
-      },
-      hmr: {
-        port: hmrPort,
-      },
-    },
-    appType: 'custom',
-  };
+  const resolve = (p: string) => path.resolve(__dirname, p);
 
   const app = express();
 
-  const vite = await (await import('vite')).createServer(serverOptions);
+  const vite = await (await import('vite')).createServer(getServerOptions(root, hmrPort));
 
   app.use(vite.middlewares);
 
-  app.use('*', async (req, res) => {
+  app.use('*', async (req: express.Request, res: express.Response) => {
     try {
       const url = req.originalUrl;
 
@@ -45,7 +30,7 @@ export async function createServer(root = process.cwd()) {
 
       const transformedHtml = await vite.transformIndexHtml(url, htmlFromFile);
 
-      const renderMethodFromServerApp = (await vite.ssrLoadModule('/src/ServerApp.tsx')).render;
+      const renderMethodFromServerApp = (await vite.ssrLoadModule('/src/server/ServerApp.tsx')).render;
 
       const renderedToString = renderMethodFromServerApp(url, data);
 
@@ -64,8 +49,11 @@ export async function createServer(root = process.cwd()) {
   return { app, vite };
 }
 
-createServer().then(({ app }) =>
+try {
+  const { app } = await createServer();
   app.listen(port, () => {
     console.log(`http://localhost:${port}`);
-  })
-);
+  });
+} catch (e) {
+  console.error('Error initializing server...', e);
+}
