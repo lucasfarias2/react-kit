@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "ES2022",
+    "target": "ES2022",
+    "isolatedModules": true,
+    "paths": {
+      "@server/*": ["src/server/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist", "vite.config.ts"],
+  "ts-node": {
+    "experimentalSpecifierResolution": "node",
+    "esm": true,
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"]
+  }
+}

@@ -1,8 +1,9 @@
 {
-  "quiet": true,
+  "quiet": false,
   "execMap": {
-    "ts": "ts-node"
+    "ts": "ts-node --project tsconfig.server.json"
   },
+  "ext": "ts, js",
   "ignore": ["**/*.jsx", "**/*.tsx", "**/*.mjs"],
   "events": {
     "restart": "echo \"Server restarted\"",

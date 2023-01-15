@@ -8,6 +8,7 @@ coverage
 # production
 build
 dist
+build-server
 
 # misc
 .DS_Store
@@ -26,3 +27,4 @@ yarn-error.log*
 
 # vite
 vite.config.js.timestamp*
+vite.config.ts.timestamp*

@@ -1,3 +1,4 @@
+import TestComponent from '@shared/TestComponent';
 import { useState } from 'react';
 
 const App = ({ name }: { name: string }) => {
@@ -7,7 +8,6 @@ const App = ({ name }: { name: string }) => {
     <div className="p-8">
       Name: {name}
       <p className="p-4 bg-white border rounded-lg shadow-lg mb-4">{count}</p>
-
       <button
         className="p-4 bg-blue-500 text-white rounded-lg shadow"
         onClick={() => {
@@ -16,6 +16,7 @@ const App = ({ name }: { name: string }) => {
       >
         Add counts
       </button>
+      <TestComponent />
     </div>
   );
 };
