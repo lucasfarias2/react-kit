@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
-import getServerOptions from './src/server/getServerOptions';
+import getServerOptions from './server/serverOptions';
 
 const port = 3000;
 const hmrPort = 3001;
@@ -38,13 +38,13 @@ app.use('*', async (req, res: express.Response) => {
       html = htmlFromFile;
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      render = (await import(resolve('./react/ssr/ServerApp.js'))).render;
+      render = (await import(resolve('./react/ssr/home.js'))).render;
     } else {
       html = await vite.transformIndexHtml(url, htmlFromFile);
-      render = (await vite.ssrLoadModule('/src/server/entries/ServerApp.tsx')).render;
+      render = (await vite.ssrLoadModule('/src/server/entries/home.tsx')).render;
     }
 
-    const data = { name: 'Data from server lucas' };
+    const data = { name: 'Test data from server' };
 
     const serializedData = JSON.stringify(data);
 
@@ -53,7 +53,6 @@ app.use('*', async (req, res: express.Response) => {
     const finalHtml = html
       .replace(`<!--app-html-->`, renderedToString)
       .replace('// preloaded-state', `window.__PRELOADED_STATE__ = ${serializedData}`);
-
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
   } catch (e) {
@@ -67,5 +66,5 @@ app.use('*', async (req, res: express.Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`http://localhost:${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });

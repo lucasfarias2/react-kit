@@ -1,4 +1,4 @@
-import TestComponent from '@shared/TestComponent';
+import TestComponent from '@shared/components/TestComponent';
 import { useState } from 'react';
 
 const App = ({ name }: { name: string }) => {

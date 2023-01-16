@@ -3,7 +3,6 @@ import express from 'express';
 declare global {
   export interface IResponse extends express.Response {
     renderView: (Page: React.FunctionComponent, props?: unknown) => void;
-    renderViewWithRouting: (Page: React.FunctionComponent, props?: unknown) => void;
   }
 
   export interface IRequest extends express.Request {
