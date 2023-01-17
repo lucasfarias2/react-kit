@@ -8,7 +8,7 @@
     "target": "ES2022",
     "isolatedModules": true,
     "paths": {
-      "@server/*": ["src/server/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["**/*.ts"],

@@ -1,5 +1,5 @@
-import TestComponent from '@shared/components/TestComponent';
 import { useState } from 'react';
+import TestComponent from '@/shared/components/TestComponent';
 
 const App = ({ name }: { name: string }) => {
   const [count, add] = useState(0);
