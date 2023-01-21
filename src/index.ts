@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import express, { NextFunction } from 'express';
+import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer as createViteServer } from 'vite';
@@ -20,14 +20,6 @@ let vite: ViteDevServer;
 const app = express();
 
 // @ts-ignore
-app.use(async (req, res: IResponse, next: NextFunction) => {
-  if (!isProd) {
-    res.locals.vite = await createViteServer(getServerOptions(root, hmrPort));
-  }
-  next();
-});
-
-// @ts-ignore
 app.use(renderViewMiddleware);
 
 if (isProd) {
@@ -36,6 +28,11 @@ if (isProd) {
 } else {
   vite = await createViteServer(getServerOptions(root, hmrPort));
   app.use(vite.middlewares);
+
+  app.use((req, res, next) => {
+    res.locals.vite = vite;
+    next();
+  });
 }
 
 // @ts-ignore
