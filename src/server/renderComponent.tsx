@@ -2,7 +2,7 @@
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 
-const render = (
+const renderComponent = (
   Component: React.FunctionComponent<any> | React.ComponentClass<any>,
   url: string,
   props: any,
@@ -17,4 +17,4 @@ const render = (
   return renderToString(component);
 };
 
-export default render;
+export default renderComponent;

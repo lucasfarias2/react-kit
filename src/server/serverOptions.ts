@@ -1,4 +1,4 @@
-import type { InlineConfig } from "vite";
+import type { InlineConfig } from 'vite';
 
 export default (root: string, hmrPort: number): InlineConfig => {
   return {
