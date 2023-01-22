@@ -1,4 +1,4 @@
-import type { NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'path';
@@ -7,14 +7,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const resolve = (p: string) => path.resolve(__dirname, p);
 const isProd = process.env.NODE_ENV === 'production';
 
-export default (req: IRequest, res: IResponse, next: NextFunction) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  res.renderView = async (compiledServerFile: string, props: any) => {
+export default (req: Request, res: Response, next: NextFunction) => {
+  res.renderView = async (pageName, props) => {
     try {
       const url = req.originalUrl;
 
       const htmlFromFile = fs.readFileSync(
-        resolve(isProd ? '../../react/src/client/entries/home/home.html' : '../../../src/client/entries/home/home.html'),
+        resolve(
+          isProd
+            ? `../../react/src/client/entries/${pageName}/${pageName}.html`
+            : `../../../src/client/entries/${pageName}/${pageName}.html`
+        ),
         'utf-8'
       );
 
@@ -22,12 +25,10 @@ export default (req: IRequest, res: IResponse, next: NextFunction) => {
 
       if (isProd) {
         html = htmlFromFile;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        render = (await import(compiledServerFile)).render;
+        render = (await import(resolve(`./react/ssr/${pageName}.js`))).render;
       } else {
         html = await res.locals.vite.transformIndexHtml(url, htmlFromFile);
-        render = (await res.locals.vite.ssrLoadModule('/src/server/entries/home.tsx')).render;
+        render = (await res.locals.vite.ssrLoadModule(`/src/server/entries/${pageName}.tsx`)).render;
       }
 
       const serializedData = JSON.stringify(props);

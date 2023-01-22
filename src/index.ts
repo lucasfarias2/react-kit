@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import express from 'express';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
+import homeController from './server/controllers/homeController';
+import deviceMiddleware from './server/middleware/device';
+import notFoundMiddleware from './server/middleware/notFound';
 import renderViewMiddleware from './server/middleware/renderView';
 import getServerOptions from './server/serverOptions';
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const hmrPort = 3001;
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const resolve = (p: string) => path.resolve(__dirname, p);
 
 const isProd = process.env.NODE_ENV === 'production';
 const root = process.cwd();
@@ -19,8 +16,8 @@ const root = process.cwd();
 let vite: ViteDevServer;
 const app = express();
 
-// @ts-ignore
 app.use(renderViewMiddleware);
+app.use(deviceMiddleware);
 
 if (isProd) {
   app.use((await import('compression')).default());
@@ -35,10 +32,8 @@ if (isProd) {
   });
 }
 
-// @ts-ignore
-app.use('*', (req: IRequest, res: IResponse) => {
-  res.renderView(resolve('./react/ssr/home.js'), { name: 'Test data new' });
-});
+app.get('/', homeController);
+app.use(notFoundMiddleware);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

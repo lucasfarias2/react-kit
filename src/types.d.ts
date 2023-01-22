@@ -1,20 +1,21 @@
-import type { Request, Response } from 'express';
 import type { ViteDevServer } from 'vite';
 
 declare global {
-  export interface IResponse extends Response {
-    renderView: (compiledServerFile: string, props?: unknown) => void;
-    isProd?: boolean;
-    locals: {
-      vite: ViteDevServer;
-    };
-  }
+  namespace Express {
+    interface Request {
+      asd: string;
+      device?: {
+        type: DeviceType;
+      };
+    }
 
-  export interface IRequest extends Request {
-    originalUrl: string;
-    device?: {
-      type: DeviceType;
-    };
+    interface Response {
+      renderView: (pageName: string, props?: unknown) => void;
+      isProd?: boolean;
+      locals: {
+        vite: ViteDevServer;
+      };
+    }
   }
 
   type DeviceType = 'mobile' | 'desktop';

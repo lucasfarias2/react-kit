@@ -16,8 +16,6 @@ const hydrate = (Component: React.FunctionComponent<any> | React.ComponentClass<
   } else {
     hydrateRoot(domElement, component);
   }
-
-  console.log('Hydrated');
 };
 
 export default hydrate;
