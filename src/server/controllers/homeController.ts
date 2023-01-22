@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 
 const homeController = (req: Request, res: Response) => {
-  res.renderView('home', { name: 'Test data new' });
+  res.renderView('home', { name: 'Data server side', device: req.device });
 };
 
 export default homeController;

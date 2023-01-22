@@ -4,9 +4,7 @@ declare global {
   namespace Express {
     interface Request {
       asd: string;
-      device?: {
-        type: DeviceType;
-      };
+      device?: IDevice;
     }
 
     interface Response {
@@ -18,7 +16,11 @@ declare global {
     }
   }
 
-  type DeviceType = 'mobile' | 'desktop';
+  export interface IDevice {
+    type: TDeviceType;
+  }
+
+  type TDeviceType = 'mobile' | 'desktop';
 
   export type IWindow = typeof window & {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +30,7 @@ declare global {
   export interface IComponent {
     children?: React.ReactNode;
     className?: string;
-    deviceType?: DeviceType;
+    device?: IDevice;
   }
 
   export type TOnClick = React.MouseEvent<HTMLButtonElement>;
