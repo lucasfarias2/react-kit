@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=production node --experimental-specifier-resolution=node ./dist/index.js",
-    "dev": "nodemon ./src/index.ts",
+    "dev": "NODE_ENV=development nodemon ./src/index.ts",
     "build": "npm run build:react && npm run build:server",
     "build:server": "tsc -p tsconfig.server.json",
     "build:react": "npm run build:react:client && npm run build:react:ssr",

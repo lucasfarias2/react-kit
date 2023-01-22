@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`Renders component OK 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="testComponent"
+  >
+    Test Component Text
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Renders component OK with snapshot 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="testComponent"
+  >
+    Test Component Text
+  </div>
+</DocumentFragment>
+`;

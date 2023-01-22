@@ -6,8 +6,9 @@ import path from 'path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const resolve = (p: string) => path.resolve(__dirname, p);
 const isProd = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === 'development';
 
-export default (req: Request, res: Response, next: NextFunction) => {
+const renderViewMiddleware = (req: Request, res: Response, next: NextFunction) => {
   res.renderView = async (pageName, props) => {
     try {
       const url = req.originalUrl;
@@ -42,7 +43,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
       res.status(200).set({ 'Content-Type': 'text/html' }).end(finalHtml);
     } catch (e) {
       const error = e as Error;
-      if (!isProd) {
+      if (isDev) {
         res.locals.vite.ssrFixStacktrace(error);
       }
       console.log(error.stack);
@@ -52,3 +53,5 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
   next();
 };
+
+export default renderViewMiddleware;
