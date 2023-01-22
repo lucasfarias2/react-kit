@@ -14,7 +14,8 @@ export default defineConfig({
       },
     },
   },
-  // test: {
-  //   environment: 'happy-dom',
-  //   setupFiles: ['./setupVitest.js'],
+  test: {
+    environment: 'happy-dom',
+    setupFiles: ['./src/config/setupVitest.ts'],
+  },
 });

@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
+import apiRouter from './api/router';
 import homeController from './server/controllers/homeController';
 import deviceMiddleware from './server/middleware/device';
 import notFoundMiddleware from './server/middleware/notFound';
@@ -32,7 +33,8 @@ if (isProd) {
   });
 }
 
-app.get('/', homeController);
+app.use('/api', apiRouter);
+app.get('/', homeController.fetch, homeController.render);
 app.use(notFoundMiddleware);
 
 app.listen(port, () => {

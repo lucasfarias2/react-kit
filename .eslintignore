@@ -2,4 +2,4 @@
 /dist
 /**/*.js
 /**/*.cjs
-vite.config.ts
+

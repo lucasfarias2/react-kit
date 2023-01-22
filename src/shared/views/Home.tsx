@@ -5,7 +5,7 @@ const App = ({ name, device }: { name: string; device: IDevice }) => {
   const [count, add] = useState(0);
 
   return (
-    <div className="p-8">
+    <div className="p-8" data-testid="homeView">
       <h1 className="text-4xl mb-4 font-bold">react-vite-ssr</h1>
       <p className="mb-4">
         Data: <span className="p-2 bg-white shadow rounded-lg">{name}</span>
