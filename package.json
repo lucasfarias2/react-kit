@@ -10,7 +10,7 @@
     "url": "git+https://github.com/lucasfarias2/react-vite-ssr.git"
   },
   "scripts": {
-    "start": "NODE_ENV=production node --experimental-specifier-resolution=node ./dist/index.js",
+    "start": "NODE_ENV=production node ./dist/src/index.js",
     "dev": "NODE_ENV=development nodemon ./src/index.ts",
     "build": "npm run build:react && npm run build:server",
     "build:server": "tsc -p tsconfig.server.json",
@@ -47,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
     "@vitejs/plugin-react": "^3.0.1",
+    "@vitejs/plugin-react-swc": "^3.2.0",
     "@vitest/coverage-c8": "^0.27.1",
     "autoprefixer": "^10.4.13",
     "compression": "^1.7.4",

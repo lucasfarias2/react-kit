@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import restClient from '../restClient';
+import restClient from '../restClient.js';
 
 const fetch = async (req: Request, res: Response, next: NextFunction) => {
   try {

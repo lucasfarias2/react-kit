@@ -1,5 +1,5 @@
 import express from 'express';
-import dataController from './controllers/dataController';
+import dataController from './controllers/dataController.js';
 
 const apiRouter = express.Router();
 

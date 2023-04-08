@@ -1,12 +1,12 @@
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
-import apiRouter from './api/router';
-import homeController from './server/controllers/homeController';
-import deviceMiddleware from './server/middleware/device';
-import notFoundMiddleware from './server/middleware/notFound';
-import renderViewMiddleware from './server/middleware/renderView';
-import getServerOptions from './server/serverOptions';
+import apiRouter from './api/router.js';
+import homeController from './server/controllers/homeController.js';
+import deviceMiddleware from './server/middleware/device.js';
+import notFoundMiddleware from './server/middleware/notFound.js';
+import renderViewMiddleware from './server/middleware/renderView.js';
+import getServerOptions from './server/serverOptions.js';
 
 const port = process.env.PORT || 3000;
 const hmrPort = 3001;
