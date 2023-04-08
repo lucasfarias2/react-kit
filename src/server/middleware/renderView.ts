@@ -16,7 +16,7 @@ const renderViewMiddleware = (req: Request, res: Response, next: NextFunction) =
       const htmlFromFile = fs.readFileSync(
         resolve(
           isProd
-            ? `../../react/src/client/entries/${pageName}/${pageName}.html`
+            ? `../../../react/src/client/entries/${pageName}/${pageName}.html`
             : `../../../src/client/entries/${pageName}/${pageName}.html`
         ),
         'utf-8'
@@ -26,7 +26,7 @@ const renderViewMiddleware = (req: Request, res: Response, next: NextFunction) =
 
       if (isProd) {
         html = htmlFromFile;
-        render = (await import(resolve(`./react/ssr/${pageName}.js`))).render;
+        render = (await import(resolve(`../../../react/ssr/${pageName}.js`))).render;
       } else {
         html = await res.locals.vite.transformIndexHtml(url, htmlFromFile);
         render = (await res.locals.vite.ssrLoadModule(`/src/server/entries/${pageName}.tsx`)).render;
