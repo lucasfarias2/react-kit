@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist",
     "target": "ES2022",
     "jsx": "react-jsx",
     "module": "ES2022",
